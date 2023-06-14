@@ -8,6 +8,12 @@
             "command": "cd next-app && pnpm run dev"
         },
         {
+            "name": "Next.js: debug server-side Desktop",
+            "type": "node-terminal",
+            "request": "launch",
+            "command": "pnpm run dev"
+        },
+        {
             "name": "Next.js: debug client-side",
             "type": "chrome",
             "request": "launch",

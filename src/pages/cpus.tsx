@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import path from 'path';
 import { usePapaParse } from 'react-papaparse';
 
+
 export async function getStaticProps() {
     // `getStaticProps()` の中で `fs` を少しでも利用すれば OK
     //const reader = new FileReader();
@@ -10,42 +11,39 @@ export async function getStaticProps() {
     const filePath: string = path.join(process.cwd(), 'CPUs.csv');
     const file: string = fs.readFileSync(filePath, 'utf-8');
     const { readString } = usePapaParse();
-    const results = readString(file, {
+    const results: void = readString(file, {
+        header: true,
         worker: true,
         complete: (results) => {
             console.log('---------------------------');
-            console.log(typeof (results));
+            console.log(results);
             console.log('---------------------------');
             return results;
         },
     });
-    // const Jsondata = readString(data, {
-    //     worker: true,
-    //     complete: (results) => {
-    //         console.log('---------------------------');
-    //         console.log(results);
-    //         console.log('---------------------------');
-    //     },
-    // });
+
 
     return {
-        props: { data: results.data }
+        props: results
     }
 }
 
-export default function Home(data: object) {
-    console.log(typeof (data));
-    const array = data;
+
+export default function Home(props: any) {
+    console.log('props======')
+    console.log((props.data));
+    Array.isArray(props.data) ? console.log('true') : console.log('false');
     return (
-
         <ul>
-            { /* mapping all the data inside
-                an unordered list */}
-
-            {data.map((k, v) => (
-                <li key={v.url}>{poke.name}</li>
-            ))}
+            {props.data.map((value: {}, index: number) =>
+                <li>{index}-{value.TDP}
+                </li>
+            )}
         </ul>
 
+
     );
+
+
+
 }
